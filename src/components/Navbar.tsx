@@ -21,7 +21,7 @@ const Navbar = () => {
 
   // Using a placeholder to test the logo.
   // Replace with your actual raw GitHub URL.
-  const logoUrl = "https://raw.githubusercontent.com/Ansab-ai-101/aurora-wellbeing-verse/main/public/logo1.PNG";
+  const logoUrl = "https://raw.githubusercontent.com/Ansab-ai-101/aurora-wellbeing-verse/main/public/logo1.png";
 
   return (
     <nav className="fixed top-0 w-full z-50 glass border-b border-white/10">
