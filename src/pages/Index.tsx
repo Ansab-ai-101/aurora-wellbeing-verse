@@ -57,7 +57,7 @@ const Index = () => {
       name: "Ansab Butt",
       role: "Co-Founder & CTO",
       bio: "Visionary leader with expertise in AI and mental health technology. Passionate about making mental wellness accessible to everyone.",
-      image: "https://github.com/Ansab-ai-101/aurora-wellbeing-verse/blob/main/public/Ansab(2).png",
+      image: "https://raw.githubusercontent.com/Ansab-ai-101/aurora-wellbeing-verse/main/public/Ansab(2).png",
       social: {
         linkedin: "#",
         twitter: "#",
@@ -68,7 +68,7 @@ const Index = () => {
       name: "Filip Protic",
       role: "Co-Founder & CEO",
       bio: "Technical innovator specializing in scalable AI systems and user experience design. Committed to building technology that heals.",
-      image: "https://github.com/Ansab-ai-101/aurora-wellbeing-verse/blob/main/public/Filip.png",
+      image: "https://raw.githubusercontent.com/Ansab-ai-101/aurora-wellbeing-verse/main/public/Filip.png",
       social: {
         linkedin: "#",
         twitter: "#",
