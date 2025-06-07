@@ -13,7 +13,10 @@ import {
   Star,
   ArrowRight,
   Play,
-  ChevronRight
+  ChevronRight,
+  Github,
+  Linkedin,
+  Twitter
 } from "lucide-react";
 
 const Index = () => {
@@ -26,7 +29,7 @@ const Index = () => {
     {
       icon: <Brain className="w-8 h-8" />,
       title: "AI-Powered Analysis",
-      description: "Advanced DeepSeek AI understands your mental state and provides personalized insights.",
+      description: "Advanced AI understands your mental state and provides personalized insights.",
       color: "from-purple-500 to-pink-500"
     },
     {
@@ -49,6 +52,31 @@ const Index = () => {
     }
   ];
 
+  const founders = [
+    {
+      name: "Ansab Butt",
+      role: "Co-Founder & CEO",
+      bio: "Visionary leader with expertise in AI and mental health technology. Passionate about making mental wellness accessible to everyone.",
+      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+      social: {
+        linkedin: "#",
+        twitter: "#",
+        github: "#"
+      }
+    },
+    {
+      name: "Filip Protic",
+      role: "Co-Founder & CTO",
+      bio: "Technical innovator specializing in scalable AI systems and user experience design. Committed to building technology that heals.",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+      social: {
+        linkedin: "#",
+        twitter: "#",
+        github: "#"
+      }
+    }
+  ];
+
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveFeature((prev) => (prev + 1) % features.length);
@@ -64,9 +92,37 @@ const Index = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
+  // Store the Hugging Face token for the user
+  useEffect(() => {
+    if (user) {
+      const storeToken = async () => {
+        try {
+          const { supabase } = await import('@/integrations/supabase/client');
+          
+          // Store the Hugging Face token
+          const { error } = await supabase
+            .from('user_api_keys')
+            .upsert({
+              user_id: user.id,
+              service_name: 'huggingface',
+              encrypted_key: btoa('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') // Simple base64 encoding
+            });
+
+          if (error) {
+            console.error('Error storing Hugging Face token:', error);
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      };
+
+      storeToken();
+    }
+  }, [user]);
+
   return (
     <div className="min-h-screen pt-16 overflow-hidden relative">
-      {/* Dynamic Background */}
+      {/* Dynamic Background with Hero Image */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-black via-purple-900/20 to-black"></div>
         <div 
@@ -88,7 +144,7 @@ const Index = () => {
             <div className="space-y-8 fade-in">
               <div className="inline-flex items-center glass px-6 py-3 rounded-full border border-white/20 mb-8">
                 <Sparkles className="w-4 h-4 text-neon-cyan mr-3 animate-pulse" />
-                <span className="font-space text-sm text-white/80">Powered by DeepSeek AI</span>
+                <span className="font-space text-sm text-white/80">Powered by Advanced AI</span>
                 <div className="ml-3 w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
               </div>
 
@@ -153,9 +209,13 @@ const Index = () => {
 
             {/* Right Visual */}
             <div className="relative">
-              {/* Main Visual Container */}
+              {/* Hero Image */}
               <div className="relative w-full h-96 lg:h-[500px] glass-strong rounded-3xl overflow-hidden border border-white/20 neon-glow">
-                {/* Animated Background */}
+                <img 
+                  src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&h=600&fit=crop" 
+                  alt="Mental wellness technology"
+                  className="w-full h-full object-cover opacity-80"
+                />
                 <div className="absolute inset-0 bg-gradient-to-br from-neon-cyan/20 via-purple-500/20 to-neon-magenta/20"></div>
                 
                 {/* Floating Elements */}
@@ -232,80 +292,220 @@ const Index = () => {
               Revolutionary Features
             </h2>
             <p className="font-space text-lg text-white/70 max-w-3xl mx-auto">
-              Three powerful tools designed to transform your mental wellness journey 
+              Five powerful tools designed to transform your mental wellness journey 
               with cutting-edge AI technology and human expertise.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-8">
             {[
               {
-                title: "AI Community Chat",
-                description: "Engage with our advanced DeepSeek AI for personalized mental health support and connect with a supportive community.",
+                title: "AI Psychiatrist",
+                description: "Chat with our advanced AI psychiatrist for personalized mental health support and guidance.",
                 icon: <Brain className="w-8 h-8" />,
                 gradient: "from-purple-500 to-pink-500",
                 link: "/chat",
-                features: ["24/7 AI Support", "Community Forums", "Anonymous Mode"]
+                image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=400&h=300&fit=crop",
+                features: ["24/7 Support", "Personalized Care", "Real-time Analysis"]
               },
               {
-                title: "Smart Therapist Matching",
-                description: "AI-powered algorithm instantly connects you with licensed professionals based on your unique needs and preferences.",
+                title: "Therapist Matching",
+                description: "AI-powered algorithm connects you with licensed professionals using live web search.",
                 icon: <Zap className="w-8 h-8" />,
                 gradient: "from-blue-500 to-cyan-500",
                 link: "/therapist-finder",
-                features: ["Real-time Matching", "Licensed Professionals", "Secure Booking"]
+                image: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=400&h=300&fit=crop",
+                features: ["Live Search", "Licensed Pros", "Instant Matching"]
               },
               {
                 title: "Wellness Toolkit",
-                description: "Comprehensive suite of interactive tools including meditation, journaling, mood tracking, and personalized insights.",
+                description: "Interactive tools including meditation, journaling, mood tracking, and insights.",
                 icon: <Star className="w-8 h-8" />,
                 gradient: "from-green-500 to-emerald-500",
                 link: "/wellness-toolkit",
-                features: ["Mood Tracking", "Guided Meditation", "Progress Analytics"]
+                image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop",
+                features: ["Mood Tracking", "Guided Tools", "Analytics"]
+              },
+              {
+                title: "Community Groups",
+                description: "Join support groups and share experiences with peers in a safe environment.",
+                icon: <Users className="w-8 h-8" />,
+                gradient: "from-orange-500 to-red-500",
+                link: "/community",
+                image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&h=300&fit=crop",
+                features: ["Peer Support", "Group Therapy", "AI Moderation"]
+              },
+              {
+                title: "Crisis Support",
+                description: "Immediate help and resources for mental health emergencies and crisis situations.",
+                icon: <Shield className="w-8 h-8" />,
+                gradient: "from-red-500 to-pink-500",
+                link: "/crisis-support",
+                image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&h=300&fit=crop",
+                features: ["24/7 Crisis Line", "Emergency Resources", "Immediate Help"]
               }
             ].map((item, index) => (
               <div
                 key={index}
-                className="group relative glass-strong rounded-3xl p-8 border border-white/20 hover:border-white/40 transition-all duration-500 hover-scale fade-in"
+                className="group relative glass-strong rounded-3xl overflow-hidden border border-white/20 hover:border-white/40 transition-all duration-500 hover-scale fade-in"
                 style={{ animationDelay: `${index * 200}ms` }}
               >
-                {/* Background Gradient */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-10 rounded-3xl transition-opacity duration-500`}></div>
-                
-                {/* Icon */}
-                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${item.gradient} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                  {item.icon}
+                {/* Background Image */}
+                <div className="relative h-48 overflow-hidden">
+                  <img 
+                    src={item.image} 
+                    alt={item.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-60`}></div>
+                  <div className="absolute inset-0 bg-black/20"></div>
                 </div>
 
                 {/* Content */}
-                <h3 className="font-orbitron font-bold text-xl text-white mb-4 group-hover:text-neon-cyan transition-colors">
-                  {item.title}
-                </h3>
-                <p className="font-space text-white/70 mb-6 leading-relaxed">
-                  {item.description}
-                </p>
+                <div className="p-6 space-y-4">
+                  {/* Icon */}
+                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${item.gradient} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                    {item.icon}
+                  </div>
 
-                {/* Features List */}
-                <ul className="space-y-2 mb-6">
-                  {item.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-center space-x-2 text-sm text-white/60">
-                      <div className="w-1.5 h-1.5 bg-neon-cyan rounded-full"></div>
-                      <span className="font-space">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
+                  <h3 className="font-orbitron font-bold text-lg text-white group-hover:text-neon-cyan transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="font-space text-white/70 text-sm leading-relaxed">
+                    {item.description}
+                  </p>
 
-                {/* CTA */}
-                <GlowButton
-                  variant="outline"
-                  onClick={() => navigate(item.link)}
-                  className="w-full group-hover:border-neon-cyan group-hover:text-neon-cyan"
-                >
-                  <span>Explore</span>
-                  <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </GlowButton>
+                  {/* Features List */}
+                  <ul className="space-y-1">
+                    {item.features.map((feature, featureIndex) => (
+                      <li key={featureIndex} className="flex items-center space-x-2 text-xs text-white/60">
+                        <div className="w-1 h-1 bg-neon-cyan rounded-full"></div>
+                        <span className="font-space">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* CTA */}
+                  <GlowButton
+                    variant="outline"
+                    size="sm"
+                    onClick={() => navigate(item.link)}
+                    className="w-full group-hover:border-neon-cyan group-hover:text-neon-cyan"
+                  >
+                    <span>Explore</span>
+                    <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </GlowButton>
+                </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* About Us Section */}
+      <section className="py-20 lg:py-32 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16 fade-in">
+            <h2 className="font-orbitron font-bold text-4xl md:text-6xl text-gradient-cyan mb-6">
+              Meet Our Founders
+            </h2>
+            <p className="font-space text-lg text-white/70 max-w-3xl mx-auto">
+              The visionary minds behind the future of mental wellness technology, 
+              dedicated to making mental health support accessible to everyone.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-12 lg:gap-16">
+            {founders.map((founder, index) => (
+              <div 
+                key={index}
+                className="glass-strong rounded-3xl p-8 aurora-gradient hover-scale fade-in"
+                style={{ animationDelay: `${index * 300}ms` }}
+              >
+                <div className="text-center space-y-6">
+                  {/* Profile Image */}
+                  <div className="relative mx-auto w-32 h-32 mb-6">
+                    <img 
+                      src={founder.image}
+                      alt={founder.name}
+                      className="w-full h-full rounded-full object-cover border-4 border-white/20"
+                    />
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-br from-neon-cyan/20 to-neon-magenta/20"></div>
+                  </div>
+
+                  {/* Content */}
+                  <div>
+                    <h3 className="font-orbitron font-bold text-2xl text-gradient-cyan mb-2">
+                      {founder.name}
+                    </h3>
+                    <p className="font-space text-lg text-neon-magenta mb-4">
+                      {founder.role}
+                    </p>
+                    <p className="font-space text-white/80 leading-relaxed mb-6">
+                      {founder.bio}
+                    </p>
+                  </div>
+
+                  {/* Social Links */}
+                  <div className="flex justify-center space-x-4">
+                    <a 
+                      href={founder.social.linkedin}
+                      className="w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-neon-cyan/20 transition-colors"
+                    >
+                      <Linkedin className="w-5 h-5 text-white/60 hover:text-neon-cyan" />
+                    </a>
+                    <a 
+                      href={founder.social.twitter}
+                      className="w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-neon-cyan/20 transition-colors"
+                    >
+                      <Twitter className="w-5 h-5 text-white/60 hover:text-neon-cyan" />
+                    </a>
+                    <a 
+                      href={founder.social.github}
+                      className="w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-neon-cyan/20 transition-colors"
+                    >
+                      <Github className="w-5 h-5 text-white/60 hover:text-neon-cyan" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Company Story */}
+          <div className="mt-16 glass-strong rounded-3xl p-8 text-center aurora-gradient">
+            <div className="max-w-4xl mx-auto space-y-6">
+              <h3 className="font-orbitron font-bold text-3xl text-gradient-aurora mb-6">
+                Our Mission
+              </h3>
+              <img 
+                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=400&fit=crop"
+                alt="Team collaboration"
+                className="w-full h-64 object-cover rounded-2xl mb-6 opacity-80"
+              />
+              <p className="font-space text-lg text-white/80 leading-relaxed">
+                We believe that mental health support should be accessible, personalized, and available 
+                when you need it most. Our platform combines cutting-edge AI technology with human expertise 
+                to create a comprehensive ecosystem for mental wellness that adapts to your unique journey.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                <div className="glass rounded-xl p-4">
+                  <div className="text-3xl mb-2">🎯</div>
+                  <h4 className="font-orbitron font-semibold text-white mb-2">Our Vision</h4>
+                  <p className="text-sm text-white/70">A world where mental wellness is accessible to everyone</p>
+                </div>
+                <div className="glass rounded-xl p-4">
+                  <div className="text-3xl mb-2">💡</div>
+                  <h4 className="font-orbitron font-semibold text-white mb-2">Innovation</h4>
+                  <p className="text-sm text-white/70">Pioneering AI-driven mental health solutions</p>
+                </div>
+                <div className="glass rounded-xl p-4">
+                  <div className="text-3xl mb-2">🤝</div>
+                  <h4 className="font-orbitron font-semibold text-white mb-2">Community</h4>
+                  <p className="text-sm text-white/70">Building connections that heal and support</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
