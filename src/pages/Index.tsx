@@ -57,7 +57,7 @@ const Index = () => {
       name: "Ansab Butt",
       role: "Co-Founder & CTO",
       bio: "Visionary leader with expertise in AI and mental health technology. Passionate about making mental wellness accessible to everyone.",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+      image: "https://github.com/Ansab-ai-101/aurora-wellbeing-verse/blob/main/public/Ansab.jpeg",
       social: {
         linkedin: "#",
         twitter: "#",
@@ -68,7 +68,7 @@ const Index = () => {
       name: "Filip Protic",
       role: "Co-Founder & CEO",
       bio: "Technical innovator specializing in scalable AI systems and user experience design. Committed to building technology that heals.",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+      image: "https://github.com/Ansab-ai-101/aurora-wellbeing-verse/blob/main/public/Filip.jpg",
       social: {
         linkedin: "#",
         twitter: "#",
@@ -305,7 +305,7 @@ const Index = () => {
                 icon: <Brain className="w-8 h-8" />,
                 gradient: "from-purple-500 to-pink-500",
                 link: "/chat",
-                image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=400&h=300&fit=crop",
+                image: "https://img.freepik.com/premium-photo/aipowered-virtual-medical-assistant-providing-247-healthcare-support-through-digital-platforms_1298745-35554.jpg",
                 features: ["24/7 Support", "Personalized Care", "Real-time Analysis"]
               },
               {
