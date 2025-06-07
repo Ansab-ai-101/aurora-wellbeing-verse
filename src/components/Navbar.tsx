@@ -19,36 +19,29 @@ const Navbar = () => {
     { name: "Platform", path: "/platform" },
   ];
 
-  // --- HOW TO GET YOUR GITHUB IMAGE URL ---
-  // 1. Go to your image file in your GitHub repository.
-  // 2. Click the "Download raw file" button.
-  // 3. Copy the URL from your browser's address bar.
-  // It should look like: https://raw.githubusercontent.com/YourUser/YourRepo/main/path/to/your-logo.png
-  const logoUrl = "https://raw.githubusercontent.com/Ansab-ai-101/aurora-wellbeing-verse/main/public/logo1.png"; // Replace with your actual raw logo URL
+  // Using a placeholder to test the logo.
+  // Replace with your actual raw GitHub URL.
+  const logoUrl = "https://raw.githubusercontent.com/Ansab-ai-101/aurora-wellbeing-verse/main/public/logo1.PNG";
 
   return (
     <nav className="fixed top-0 w-full z-50 glass border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* --- CHANGED: Logo Section --- */}
-          {/* Added flex-shrink-0 to prevent the logo from shrinking on smaller screens */}
+        <div className="relative flex items-center h-16">
+
+          {/* Logo on the left */}
           <div className="flex-shrink-0">
-            <Link to="/" className="flex items-center space-x-3">
-              {/* Replaced the div with an img tag for your logo */}
+            {/* The <span> with the "ReaLeader" text has been removed from this Link component */}
+            <Link to="/" className="flex items-center">
               <img
                 src={logoUrl}
                 alt="ReaLeader Logo"
-                className="h-8 w-auto" // Adjust size as needed
+                className="h-8 w-auto"
               />
-              <span className="font-orbitron font-bold text-xl text-gradient-cyan">
-                ReaLeader
-              </span>
             </Link>
           </div>
 
-          {/* --- CHANGED: Desktop Navigation & Auth Section --- */}
-          {/* Grouped navigation links and auth buttons together in a single container */}
-          <div className="hidden md:flex items-center space-x-6">
+          {/* Container for the right-side elements using ml-auto to push right */}
+          <div className="hidden md:flex items-center space-x-6 ml-auto">
             {/* Navigation Links */}
             <div className="flex items-center space-x-6">
               {navItems.map((item) => (
@@ -71,10 +64,6 @@ const Navbar = () => {
               {user ? (
                 <>
                   <HuggingFaceSettings />
-                  <div className="flex items-center space-x-2 px-3 py-1 glass rounded-full border border-white/20">
-                    <User className="w-4 h-4 text-neon-cyan" />
-                    <span className="text-white/80 text-sm font-space">{user.email}</span>
-                  </div>
                   <GlowButton
                     variant="outline"
                     size="sm"
@@ -95,8 +84,8 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Mobile menu button (no changes) */}
-          <div className="md:hidden">
+          {/* Mobile menu button */}
+          <div className="md:hidden ml-auto">
             <Button
               variant="ghost"
               size="sm"
@@ -110,9 +99,9 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile Navigation (no functional changes) */}
+        {/* Mobile Navigation Menu */}
         {isOpen && (
-          <div className="md:hidden glass-strong rounded-lg mt-2 p-4 space-y-2">
+           <div className="md:hidden glass-strong rounded-lg mt-2 p-4 space-y-2">
             {navItems.map((item) => (
               <Link
                 key={item.name}
@@ -129,10 +118,6 @@ const Navbar = () => {
             ))}
             {user ? (
               <div className="space-y-2 pt-2 border-t border-white/20">
-                <div className="flex items-center space-x-2 text-white/80 text-sm">
-                  <User className="w-4 h-4" />
-                  <span>{user.email}</span>
-                </div>
                 <HuggingFaceSettings />
                 <GlowButton
                   variant="outline"
