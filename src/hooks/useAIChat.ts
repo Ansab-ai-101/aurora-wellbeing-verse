@@ -1,5 +1,7 @@
 
 import { useState, useCallback } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
 
 interface Message {
   id: string;
@@ -8,27 +10,18 @@ interface Message {
   timestamp: Date;
 }
 
-interface UseAIChatReturn {
-  messages: Message[];
-  isLoading: boolean;
-  error: string | null;
-  sendMessage: (content: string) => Promise<void>;
-  clearMessages: () => void;
-}
-
-export const useAIChat = (): UseAIChatReturn => {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      content: "Hello! I'm your AI wellness companion. I'm here to listen, support, and help you navigate your mental health journey. How are you feeling today?",
-      role: 'assistant',
-      timestamp: new Date(),
-    }
-  ]);
+export const useAIChat = () => {
+  const { user } = useAuth();
+  const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const sendMessage = useCallback(async (content: string) => {
+    if (!user) {
+      setError('Please log in to use the chat');
+      return;
+    }
+
     const userMessage: Message = {
       id: Date.now().toString(),
       content,
@@ -41,67 +34,78 @@ export const useAIChat = (): UseAIChatReturn => {
     setError(null);
 
     try {
-      // Using Hugging Face Inference API with DeepSeek model
+      // Get the user's Hugging Face API key
+      const { data: keyData, error: keyError } = await supabase
+        .from('user_api_keys')
+        .select('encrypted_key')
+        .eq('user_id', user.id)
+        .eq('service_name', 'huggingface')
+        .maybeSingle();
+
+      if (keyError || !keyData) {
+        throw new Error('Please configure your Hugging Face API token in settings');
+      }
+
+      // Decrypt the API key (simple base64 decoding - use proper encryption in production)
+      const apiKey = atob(keyData.encrypted_key);
+
+      // Call Hugging Face API
       const response = await fetch(
-        "https://api-inference.huggingface.co/models/deepseek-ai/DeepSeek-R1-0528-Qwen3-8B",
+        'https://api-inference.huggingface.co/models/deepseek-ai/DeepSeek-R1-0528-Qwen3-8B',
         {
+          method: 'POST',
           headers: {
-            "Authorization": "Bearer hf_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", // User will need to provide this
-            "Content-Type": "application/json",
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
           },
-          method: "POST",
           body: JSON.stringify({
-            inputs: `You are a compassionate AI mental health companion. Respond with empathy, understanding, and helpful guidance. User says: ${content}`,
+            inputs: content,
             parameters: {
-              max_new_tokens: 200,
+              max_new_tokens: 500,
               temperature: 0.7,
-              do_sample: true,
-            }
+              return_full_text: false,
+            },
           }),
         }
       );
 
       if (!response.ok) {
-        throw new Error('Failed to get AI response');
+        const errorData = await response.json().catch(() => null);
+        throw new Error(
+          errorData?.error || 
+          'Failed to get response from AI. Please check your API token.'
+        );
       }
 
       const data = await response.json();
-      const aiResponse = data[0]?.generated_text || "I'm here to help. Could you tell me more about what's on your mind?";
+      let aiResponse = '';
+
+      if (Array.isArray(data) && data[0]?.generated_text) {
+        aiResponse = data[0].generated_text.trim();
+      } else if (data.generated_text) {
+        aiResponse = data.generated_text.trim();
+      } else {
+        throw new Error('Unexpected response format from AI');
+      }
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: aiResponse.replace(`You are a compassionate AI mental health companion. Respond with empathy, understanding, and helpful guidance. User says: ${content}`, '').trim(),
+        content: aiResponse || 'I apologize, but I couldn\'t generate a response. Please try again.',
         role: 'assistant',
         timestamp: new Date(),
       };
 
       setMessages(prev => [...prev, assistantMessage]);
-    } catch (err) {
-      setError('Sorry, I encountered an issue. Please try again.');
-      console.error('AI Chat Error:', err);
-      
-      // Fallback response
-      const fallbackMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content: "I apologize, but I'm having trouble connecting right now. However, I want you to know that your feelings are valid and you're not alone. Would you like to try sharing again, or would you prefer to explore our other wellness tools?",
-        role: 'assistant',
-        timestamp: new Date(),
-      };
-      setMessages(prev => [...prev, fallbackMessage]);
+    } catch (error: any) {
+      console.error('AI Chat error:', error);
+      setError(error.message || 'Failed to send message');
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [user]);
 
   const clearMessages = useCallback(() => {
-    setMessages([
-      {
-        id: '1',
-        content: "Hello! I'm your AI wellness companion. I'm here to listen, support, and help you navigate your mental health journey. How are you feeling today?",
-        role: 'assistant',
-        timestamp: new Date(),
-      }
-    ]);
+    setMessages([]);
     setError(null);
   }, []);
 

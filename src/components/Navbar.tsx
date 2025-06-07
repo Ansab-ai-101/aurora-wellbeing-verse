@@ -2,10 +2,15 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
+import GlowButton from "./GlowButton";
+import HuggingFaceSettings from "./HuggingFaceSettings";
+import { LogOut, User } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { user, signOut } = useAuth();
 
   const navItems = [
     { name: "Home", path: "/" },
@@ -42,9 +47,31 @@ const Navbar = () => {
                 {item.name}
               </Link>
             ))}
-            <Button className="bg-gradient-to-r from-neon-cyan to-neon-magenta text-black font-semibold hover-scale neon-glow">
-              Get Started
-            </Button>
+            
+            {user ? (
+              <div className="flex items-center space-x-3">
+                <HuggingFaceSettings />
+                <div className="flex items-center space-x-2 px-3 py-1 glass rounded-full border border-white/20">
+                  <User className="w-4 h-4 text-neon-cyan" />
+                  <span className="text-white/80 text-sm font-space">{user.email}</span>
+                </div>
+                <GlowButton 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={signOut}
+                  className="flex items-center space-x-2"
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span>Logout</span>
+                </GlowButton>
+              </div>
+            ) : (
+              <Link to="/auth">
+                <GlowButton variant="primary">
+                  Get Started
+                </GlowButton>
+              </Link>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -79,9 +106,29 @@ const Navbar = () => {
                 {item.name}
               </Link>
             ))}
-            <Button className="w-full bg-gradient-to-r from-neon-cyan to-neon-magenta text-black font-semibold">
-              Get Started
-            </Button>
+            {user ? (
+              <div className="space-y-2 pt-2 border-t border-white/20">
+                <div className="flex items-center space-x-2 text-white/80 text-sm">
+                  <User className="w-4 h-4" />
+                  <span>{user.email}</span>
+                </div>
+                <HuggingFaceSettings />
+                <GlowButton 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={signOut}
+                  className="w-full"
+                >
+                  Logout
+                </GlowButton>
+              </div>
+            ) : (
+              <Link to="/auth" onClick={() => setIsOpen(false)}>
+                <GlowButton className="w-full">
+                  Get Started
+                </GlowButton>
+              </Link>
+            )}
           </div>
         )}
       </div>
