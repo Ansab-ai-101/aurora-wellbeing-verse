@@ -28,7 +28,7 @@ const Navbar = () => {
           <Link to="/" className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-gradient-to-br from-neon-cyan to-neon-magenta rounded-full neon-glow"></div>
             <span className="font-orbitron font-bold text-xl text-gradient-cyan">
-              Re-Leader 2.0
+              ReaLeader
             </span>
           </Link>
 
