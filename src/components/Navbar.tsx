@@ -34,7 +34,7 @@ const Navbar = () => {
               <img
                 src={logoUrl}
                 alt="ReaLeader Logo"
-                className="h-13 w-auto" // You can adjust the height here if needed
+                className="h-12.5 w-auto" // You can adjust the height here if needed
               />
             </Link>
           </div>
