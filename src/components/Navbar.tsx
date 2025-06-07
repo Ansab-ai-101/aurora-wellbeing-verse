@@ -19,9 +19,9 @@ const Navbar = () => {
     { name: "Platform", path: "/platform" },
   ];
 
-  // Using a placeholder to test the logo.
-  // Replace with your actual raw GitHub URL.
-  const logoUrl = "https://raw.githubusercontent.com/Ansab-ai-101/aurora-wellbeing-verse/main/public/logo1.png";
+  // --- THIS IS THE FIX ---
+  // The URL now points to the raw image file, which will display correctly.
+  const logoUrl = "https://raw.githubusercontent.com/Ansab-ai-101/aurora-wellbeing-verse/main/public/logo1.PNG";
 
   return (
     <nav className="fixed top-0 w-full z-50 glass border-b border-white/10">
@@ -30,12 +30,11 @@ const Navbar = () => {
 
           {/* Logo on the left */}
           <div className="flex-shrink-0">
-            {/* The <span> with the "ReaLeader" text has been removed from this Link component */}
             <Link to="/" className="flex items-center">
               <img
                 src={logoUrl}
                 alt="ReaLeader Logo"
-                className="h-8 w-auto"
+                className="h-8 w-auto" // You can adjust the height here if needed
               />
             </Link>
           </div>
