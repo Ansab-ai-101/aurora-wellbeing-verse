@@ -57,7 +57,7 @@ const Index = () => {
       name: "Ansab Butt",
       role: "Co-Founder & CTO",
       bio: "Visionary leader with expertise in AI and mental health technology. Passionate about making mental wellness accessible to everyone.",
-      image: "https://raw.githubusercontent.com/Ansab-ai-101/aurora-wellbeing-verse/main/public/Ansab(2).png",
+      image: "https://raw.githubusercontent.com/Ansab-ai-101/aurora-wellbeing-verse/main/public/Ansab.jpeg",
       social: {
         linkedin: "#",
         twitter: "#",
