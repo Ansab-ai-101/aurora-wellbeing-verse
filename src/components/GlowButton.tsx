@@ -8,6 +8,7 @@ interface GlowButtonProps {
   size?: "sm" | "md" | "lg";
   className?: string;
   onClick?: () => void;
+  disabled?: boolean;
 }
 
 const GlowButton = ({ 
@@ -15,7 +16,8 @@ const GlowButton = ({
   variant = "primary", 
   size = "md", 
   className = "",
-  onClick 
+  onClick,
+  disabled = false
 }: GlowButtonProps) => {
   const variants = {
     primary: "bg-gradient-to-r from-neon-cyan to-neon-magenta text-black font-semibold hover-scale neon-glow",
@@ -32,7 +34,8 @@ const GlowButton = ({
   return (
     <Button
       onClick={onClick}
-      className={`font-space ${variants[variant]} ${sizes[size]} ${className} transition-all duration-300`}
+      disabled={disabled}
+      className={`font-space ${variants[variant]} ${sizes[size]} ${className} transition-all duration-300 ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
     >
       {children}
     </Button>
