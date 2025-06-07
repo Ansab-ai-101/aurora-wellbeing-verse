@@ -55,7 +55,7 @@ const Index = () => {
   const founders = [
     {
       name: "Ansab Butt",
-      role: "Co-Founder & CEO",
+      role: "Co-Founder & CTO",
       bio: "Visionary leader with expertise in AI and mental health technology. Passionate about making mental wellness accessible to everyone.",
       image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
       social: {
@@ -66,7 +66,7 @@ const Index = () => {
     },
     {
       name: "Filip Protic",
-      role: "Co-Founder & CTO",
+      role: "Co-Founder & CEO",
       bio: "Technical innovator specializing in scalable AI systems and user experience design. Committed to building technology that heals.",
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
       social: {
